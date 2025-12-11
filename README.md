@@ -21,7 +21,8 @@ Build a mind map generator that:
 │   ├── backend/             # Same FastAPI backend
 │   └── frontend-react/      # React + Tailwind with custom canvas
 │
-├── gemini-original/         # [Coming soon] Gemini's original output
+├── gemini-original/         # Gemini's original output
+│   └── src/                 # React component (frontend-only)
 │
 └── docs/                    # Project documentation and plans
 ```
@@ -30,12 +31,17 @@ Build a mind map generator that:
 
 | Feature | Claude v1 | Claude v2 | Gemini |
 |---------|-----------|-----------|--------|
-| Framework | Vanilla JS | React + Tailwind | TBD |
-| Visualization | Mermaid.js | Custom Canvas | TBD |
-| Pan/Zoom | Mermaid native | Mouse events | TBD |
-| UI Design | Basic functional | DeckSense-inspired | TBD |
-| Node Interaction | Click to highlight | Selection + detail panel | TBD |
-| Lines of Code | ~300 | ~920 | TBD |
+| Framework | Vanilla JS | React + Tailwind | React + Tailwind |
+| Visualization | Mermaid.js | Custom Canvas | Custom Canvas (SVG) |
+| Pan/Zoom | Mermaid native | Mouse events | Mouse + wheel events |
+| UI Design | Basic functional | DeckSense-inspired | Polished sidebar + canvas |
+| Node Interaction | Click to highlight | Selection + detail panel | Selection + detail panel |
+| Node Types | Generic | 5 color-coded types | 3 types (root/category/leaf) |
+| Layout Algorithm | Mermaid auto | BFS hierarchical | Custom tree layout |
+| Undo/History | No | Yes | Yes |
+| Deep Dive/Refine | No | Yes | Yes (with global toggle) |
+| AI Integration | Claude API | Claude API | Gemini API (native) |
+| Lines of Code | ~300 | ~920 | ~750 |
 
 ## Key Observations
 
@@ -52,7 +58,13 @@ Build a mind map generator that:
 - Inspired by DeckSense UI mockup
 
 ### Gemini (Original)
-*Coming soon*
+- Clean, polished UI out of the box
+- Custom horizontal tree layout algorithm
+- Collapsible nodes with expand/collapse buttons
+- "AI Reasoning" tooltips explaining connections
+- Global vs local refine toggle
+- Frontend-only (calls Gemini API directly)
+- Example data button for quick testing
 
 ## Running the Projects
 
@@ -76,8 +88,27 @@ npm run dev
 # Opens at http://localhost:5173
 ```
 
+### Gemini
+```bash
+cd gemini-original
+# This is a React component - integrate into a React project
+# Requires: npm install lucide-react
+# Set your Gemini API key in the component
+```
+
 ## Context
 
 This comparison explores how different AI coding assistants approach the same problem, and how seeing alternative solutions can improve output quality.
 
 The prompt given was intentionally open-ended to see how each AI interprets requirements and makes design decisions.
+
+## Notable Differences
+
+| Aspect | Claude's Approach | Gemini's Approach |
+|--------|-------------------|-------------------|
+| Architecture | Full-stack (FastAPI + React) | Frontend-only (direct API calls) |
+| File Processing | Server-side (PyMuPDF, OCR) | Client-side (FileReader) |
+| Layout | BFS with manual positioning | Recursive tree algorithm |
+| Edges | Straight lines | Bezier curves |
+| Node Shape | Rectangles | Pill/capsule shape |
+| Animations | CSS transitions | CSS + cubic-bezier easing |
