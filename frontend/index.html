@@ -3,10 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mind Map Generator - Placeholder</title>
+    <title>Mind Map Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Mind Map Generator</h1>
-    <p>Placeholder page - Coming soon!</p>
+    <div class="container">
+        <header>
+            <h1>Mind Map Generator</h1>
+            <p>Upload research documents and generate prompt-guided mind maps</p>
+        </header>
+
+        <div class="controls">
+            <div class="upload-section">
+                <h2>1. Upload Documents</h2>
+                <input type="file" id="fileInput" multiple accept=".pdf,.txt,.md,.docx">
+                <button id="uploadBtn">Upload</button>
+                <button id="clearDocsBtn">Clear All</button>
+                <div id="uploadStatus"></div>
+            </div>
+
+            <div class="prompt-section">
+                <h2>2. Enter Analysis Prompt</h2>
+                <textarea id="promptInput" placeholder="e.g., Build a mind map of all workflows mentioned across these transcripts"></textarea>
+                <button id="generateBtn">Generate Mind Map</button>
+            </div>
+
+            <div class="views-section">
+                <h2>3. Saved Views</h2>
+                <div class="view-controls">
+                    <select id="viewSelect">
+                        <option value="">-- Select a saved view --</option>
+                    </select>
+                    <button id="loadViewBtn">Load</button>
+                    <button id="deleteViewBtn">Delete</button>
+                </div>
+                <div class="save-view">
+                    <input type="text" id="viewNameInput" placeholder="View name">
+                    <button id="saveViewBtn">Save Current View</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <h2 id="mapTitle">Mind Map</h2>
+            <div id="mapWrapper">
+                <div id="mermaidOutput"></div>
+            </div>
+            <div class="zoom-controls">
+                <button id="zoomInBtn">Zoom In</button>
+                <button id="zoomOutBtn">Zoom Out</button>
+                <button id="resetZoomBtn">Reset</button>
+            </div>
+        </div>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Generating mind map...</p>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
 </body>
 </html>
