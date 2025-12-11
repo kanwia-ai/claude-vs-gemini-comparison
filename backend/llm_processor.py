@@ -1,5 +1,5 @@
 import json
-import os
+import re
 from anthropic import Anthropic
 from backend.models import MindMapData, Node, Edge
 
@@ -31,6 +31,11 @@ Guidelines:
 
 def generate_mindmap(documents_content: str, user_prompt: str) -> MindMapData:
     """Generate a mind map from documents using Claude."""
+    if not documents_content or not documents_content.strip():
+        raise ValueError("documents_content cannot be empty")
+    if not user_prompt or not user_prompt.strip():
+        raise ValueError("user_prompt cannot be empty")
+
     client = Anthropic()
 
     user_message = f"""I have uploaded research documents. Here is the combined content:
@@ -60,7 +65,6 @@ Generate a mind map that addresses my request. Return ONLY valid JSON."""
         data = json.loads(response_text)
     except json.JSONDecodeError:
         # Try to extract JSON from response if wrapped in markdown
-        import re
         json_match = re.search(r'\{[\s\S]*\}', response_text)
         if json_match:
             data = json.loads(json_match.group())
